@@ -66,16 +66,16 @@ You can install Postman via this website: https://www.postman.com/downloads/
     -   [x] Commit: `Implement list_all_as_string function in Notification repository.`
     -   [x] Write answers of your learning module's "Reflection Subscriber-1" questions in this README.
 -   **STAGE 3: Implement services and controllers**
-    -   [ ] Commit: `Create Notification service struct skeleton.`
-    -   [ ] Commit: `Implement subscribe function in Notification service.`
-    -   [ ] Commit: `Implement subscribe function in Notification controller.`
-    -   [ ] Commit: `Implement unsubscribe function in Notification service.`
-    -   [ ] Commit: `Implement unsubscribe function in Notification controller.`
-    -   [ ] Commit: `Implement receive_notification function in Notification service.`
-    -   [ ] Commit: `Implement receive function in Notification controller.`
-    -   [ ] Commit: `Implement list_messages function in Notification service.`
-    -   [ ] Commit: `Implement list function in Notification controller.`
-    -   [ ] Write answers of your learning module's "Reflection Subscriber-2" questions in this README.
+    -   [x] Commit: `Create Notification service struct skeleton.`
+    -   [x] Commit: `Implement subscribe function in Notification service.`
+    -   [x] Commit: `Implement subscribe function in Notification controller.`
+    -   [x] Commit: `Implement unsubscribe function in Notification service.`
+    -   [x] Commit: `Implement unsubscribe function in Notification controller.`
+    -   [x] Commit: `Implement receive_notification function in Notification service.`
+    -   [x] Commit: `Implement receive function in Notification controller.`
+    -   [x] Commit: `Implement list_messages function in Notification service.`
+    -   [x] Commit: `Implement list function in Notification controller.`
+    -   [x] Write answers of your learning module's "Reflection Subscriber-2" questions in this README.
 
 ## Your Reflections
 This is the place for you to write reflections:
@@ -93,3 +93,18 @@ Jika kita menggunakan Mutex<> sebagai gantinya, akses ke *Vec* akan sepenuhnya *
 Rust tidak mengizinkan kita langsung memodifikasi static variable tanpa menggunakan mekanisme seperti RwLock<> atau Mutex<> karena Rust dirancang untuk menjaga *safety* (keamanan memori dan data) dengan menghindari *data race*. Dalam Java, kita bisa memodifikasi static variable dengan static function, tetapi pendekatan ini berisiko menyebabkan kondisi balapan (*race condition*). Rust menghindari risiko ini dengan memastikan bahwa akses ke static variable yang dapat berubah harus disinkronisasi dengan alat sinkronisasi eksplisit seperti RwLock<> atau Mutex<>. Dengan demikian, Rust memberikan jaminan keamanan dan ketahanan terhadap *threading* issues, yang tidak selalu terjamin dalam bahasa seperti Java.
 
 #### Reflection Subscriber-2
+
+> Have you explored things outside of the steps in the tutorial, for example: src/lib.rs? If not, explain why you did not do so. If yes, explain things that you have learned from those other parts of code.
+
+Ya, saya telah mengeksplorasi file *src/lib.rs* dan mempelajari beberapa bagian tambahan dari kode tersebut. Salah satu hal yang menarik dari eksplorasi ini adalah penggunaan *lazy_static* untuk mendeklarasikan *REQWEST_CLIENT* dan *APP_CONFIG* sebagai variabel static. Pendekatan ini membuat client HTTP dan konfigurasi aplikasi tetap tersedia di seluruh bagian aplikasi tanpa perlu mendeklarasikannya kembali di berbagai tempat. Selain itu, saya juga mempelajari bagaimana *AppConfig* mengambil variabel lingkungan dari file `.env` menggunakan pustaka `dotenvy` dan mengintegrasikannya dengan *Figment*, yang mempermudah konfigurasi berbasis lingkungan.
+
+> Since you have completed the tutorial by now and have tried to test your notification system by spawning multiple instances of Receiver, explain how Observer pattern eases you to plug in more subscribers. How about spawning more than one instance of Main app, will it still be easy enough to add to the system?
+
+Observer Pattern sangat memudahkan penambahan *subscriber* baru karena setiap *subscriber* hanya perlu melakukan *subscribe* ke tipe produk tertentu, dan sistem akan secara otomatis mengirimkan notifikasi ketika terjadi perubahan terkait produk tersebut. Hal ini memungkinkan penerapan yang fleksibel, karena kita hanya perlu menambah *subscriber* tanpa mengubah logika inti dari Main app.  
+
+Jika kita ingin menambahkan lebih dari satu instance Main app, meskipun ini mungkin sedikit lebih rumit daripada menambahkan *subscriber*, tetap bisa dilakukan dengan menyesuaikan konfigurasi jaringan dan URL *root* yang sesuai pada masing-masing instance. Dengan skema notifikasi HTTP berbasis endpoint, menambahkan instance Main app tambahan tidak akan terlalu sulit, selama endpoint Main app dapat diakses oleh *subscriber*.
+
+
+> Have you tried to make your own Tests, or enhance documentation on your Postman collection? If you have tried those features, tell us whether it is useful for your work (it can be your tutorial work or your Group Project).
+
+Saya telah mencoba meningkatkan dokumentasi Postman Collection dengan menambahkan deskripsi yang lebih jelas untuk setiap endpoint, *subscribe*, *unsubscribe*, dan *list*. Dokumentasi tambahan ini berguna, terutama saat mencoba memahami bagaimana berbagai bagian aplikasi saling berkomunikasi. Selain itu, dokumentasi ini membantu saat melakukan debug karena memudahkan dalam melacak aliran data dan respon dari aplikasi.
